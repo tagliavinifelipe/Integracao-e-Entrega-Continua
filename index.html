@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tempo de vida</title>
+</head>
+<body>
+    <h1>Tempo de vida</h1>
+    <hr>
+    <!--Crie uma apliação em php que receba, por meio de um fórmulario o nome e o ano de nascimento de uma pessoa. Com esses dados deverá calculare exibir:
+    -a idade atual da pessoa
+    -a quantidade aproximada de dias que ela viveu
+    -quantidade de batimentos que vc ja beteu... la ele
+    -considerando uma media de 75 batimentos por minutos ... la ele
+    -quantos batimentos ainda restam... la ele  
+    -->
+
+    <form action = 'calcular.php' method="post">
+    <label for="">Nome</label>
+    <input type="text" name="tnome" required>
+    <label for="">ano de nascimento</label>
+    <input type="number" name="tano" required min="1900" max="2026">
+    <input type="submit" value="calcular">
+    <input type="reset" value="limpar">
+    </form>
+</body>
+</html>
