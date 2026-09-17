@@ -1,42 +1,41 @@
 <?php
-$nome = $_POST['tnome'];
-$anoNasc = (int) $_POST['tano'];
-$anoAtual = (int) date('Y');
+$n1 = (float) ($_POST['n1'] ?? 0);
+$n2 = (float) ($_POST['n2'] ?? 0);
 
-// Processamento
-$idade = $anoAtual - $anoNasc;
-
-// Dias, horas e minutos vividos (aproximado)
-$diasVividos = $idade * 365;
-$horasVividas = $diasVividos * 24;
-$minutosVividos = $horasVividas * 60;
-
-// Médias
-$bpmMedio = 75;              // batimentos por minuto
-$respiracaoPorMinuto = 17;   // respirações por minuto
-
-// Totais já realizados
-$batimentosTotais = $minutosVividos * $bpmMedio;
-$respiracoesTotais = $minutosVividos * $respiracaoPorMinuto;
-
-// Expectativa de vida e restantes
-$expectativaVida = 95;
-$anosRestantes = $expectativaVida - $idade;
-$minutosRestantes = $anosRestantes * 365 * 24 * 60;
-$batimentosRestantes = $minutosRestantes * $bpmMedio;
-$respiracoesRestantes = $minutosRestantes * $respiracaoPorMinuto;
-
-// Saída
-echo "<h2>Olá, $nome!</h2>";
-echo "<p>Sua idade atual é: <strong>$idade anos</strong></p>";
-echo "<p>Você já viveu aproximadamente: <strong>" . number_format($diasVividos, 0, ',', '.') . " dias</strong></p>";
-echo "<p>Considerando uma média de $bpmMedio batimentos por minuto, seu coração já bateu aproximadamente: <strong>" . number_format($batimentosTotais, 0, ',', '.') . " vezes</strong></p>";
-echo "<p>Considerando uma média de $respiracaoPorMinuto respirações por minuto, você já respirou aproximadamente: <strong>" . number_format($respiracoesTotais, 0, ',', '.') . " vezes</strong></p>";
-echo "<hr>";
-echo "<p>Considerando uma expectativa de vida de $expectativaVida anos, ainda restam aproximadamente:</p>";
-echo "<ul>";
-echo "<li><strong>$anosRestantes anos</strong></li>";
-echo "<li><strong>" . number_format($batimentosRestantes, 0, ',', '.') . " batimentos cardíacos</strong></li>";
-echo "<li><strong>" . number_format($respiracoesRestantes, 0, ',', '.') . " respirações</strong></li>";
-echo "</ul>";
+$adicao        = $n1 + $n2;
+$subtracao     = $n1 - $n2;
+$multiplicacao = $n1 * $n2;
+$divisao       = ($n2 != 0) ? $n1 / $n2 : 'indefinido (divisão por zero)';
+$modulo        = ($n2 != 0) ? fmod($n1, $n2) : 'indefinido (divisão por zero)';
+$potencia      = $n1 ** $n2;
+$concatenacao  = $n1 . $n2;
 ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operações aritméticas</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div>
+        <h1>Resultados</h1>
+        <hr>
+        <?php
+        echo "<p>Números informados: <strong>$n1</strong> e <strong>$n2</strong></p>";
+
+        echo "<table>";
+        echo "<tr><th>Adição</th><td>$adicao</td></tr>";
+        echo "<tr><th>Subtração</th><td>$subtracao</td></tr>";
+        echo "<tr><th>Multiplicação</th><td>$multiplicacao</td></tr>";
+        echo "<tr><th>Divisão</th><td>$divisao</td></tr>";
+        echo "<tr><th>Módulo (resto)</th><td>$modulo</td></tr>";
+        echo "<tr><th>Potência</th><td>$potencia</td></tr>";
+        echo "<tr><th>Concatenação</th><td>$concatenacao</td></tr>";
+        echo "</table>";
+        ?>
+        <a href="index.php">Voltar</a>
+    </div>
+</body>
+</html>
