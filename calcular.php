@@ -1,14 +1,21 @@
 <?php
-$n1 = (float) ($_POST['n1'] ?? 0);
-$n2 = (float) ($_POST['n2'] ?? 0);
+$n1 = (float) $_POST['n1'];
+$n2 = (float) $_POST['n2'];
 
 $adicao        = $n1 + $n2;
 $subtracao     = $n1 - $n2;
 $multiplicacao = $n1 * $n2;
-$divisao       = ($n2 != 0) ? $n1 / $n2 : 'indefinido (divisão por zero)';
-$modulo        = ($n2 != 0) ? fmod($n1, $n2) : 'indefinido (divisão por zero)';
-$potencia      = $n1 ** $n2;
-$concatenacao  = $n1 . $n2;
+
+$divisaoValida = ($n2 != 0);
+
+if ($divisaoValida == true)
+{
+    $divisao = $n1 / $n2;
+    $modulo  = fmod($n1, $n2);
+}
+
+$potencia     = $n1 ** $n2;
+$concatenacao = $n1 . $n2;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -20,21 +27,37 @@ $concatenacao  = $n1 . $n2;
 </head>
 <body>
     <div>
-        <h1>Resultados</h1>
+        <h1>Operações aritméticas</h1>
         <hr>
-        <?php
-        echo "<p>Números informados: <strong>$n1</strong> e <strong>$n2</strong></p>";
-
-        echo "<table>";
-        echo "<tr><th>Adição</th><td>$adicao</td></tr>";
-        echo "<tr><th>Subtração</th><td>$subtracao</td></tr>";
-        echo "<tr><th>Multiplicação</th><td>$multiplicacao</td></tr>";
-        echo "<tr><th>Divisão</th><td>$divisao</td></tr>";
-        echo "<tr><th>Módulo (resto)</th><td>$modulo</td></tr>";
-        echo "<tr><th>Potência</th><td>$potencia</td></tr>";
-        echo "<tr><th>Concatenação</th><td>$concatenacao</td></tr>";
-        echo "</table>";
-        ?>
+        <h3>
+            <?php echo "$n1 + $n2 = ".number_format($adicao,2,',','.'); ?>
+        </h3>
+        <h3>
+            <?php echo "$n1 - $n2 = ".number_format($subtracao,2,',','.'); ?>
+        </h3>
+        <h3>
+            <?php echo "$n1 x $n2 = ".number_format($multiplicacao,2,',','.'); ?>
+        </h3>
+        <h3>
+            <?php
+                if ($divisaoValida == true)
+                {
+                    echo "$n1 ÷ $n2 = ".number_format($divisao,2,',','.') ;
+                    echo "<br>";
+                    echo "$n1 módulo $n2 = ".number_format($modulo,2,',','.') ;
+                }
+                else
+                {
+                    echo "<h1>Não há divisão por zero!</h1>";
+                }
+            ?>
+        </h3>
+        <h3>
+            <?php echo "$n1 <sup> $n2 </sup> =".number_format($potencia,2,',','.'); ?>
+        </h3>
+        <h3>
+            <?php echo "$n1 concatenado $n2  = $concatenacao" ?>
+        </h3>
         <a href="index.php">Voltar</a>
     </div>
 </body>
