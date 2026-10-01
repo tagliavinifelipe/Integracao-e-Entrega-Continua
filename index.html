@@ -1,28 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tempo de vida</title>
+    <title>Tabuada</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="efeitos.js" defer></script>
 </head>
-<body>
-    <h1>Tempo de vida</h1>
-    <hr>
-    <!--Crie uma apliação em php que receba, por meio de um fórmulario o nome e o ano de nascimento de uma pessoa. Com esses dados deverá calculare exibir:
-    -a idade atual da pessoa
-    -a quantidade aproximada de dias que ela viveu
-    -quantidade de batimentos que vc ja beteu... la ele
-    -considerando uma media de 75 batimentos por minutos ... la ele
-    -quantos batimentos ainda restam... la ele  
-    -->
 
-    <form action = 'calcular.php' method="post">
-    <label for="">Nome</label>
-    <input type="text" name="tnome" required>
-    <label for="">ano de nascimento</label>
-    <input type="number" name="tano" required min="1900" max="2026">
-    <input type="submit" value="calcular">
-    <input type="reset" value="limpar">
+<body>
+    <h1>Tabuada</h1>
+    <div class="construcao"><span>&#128679; PÁGINA EM CONSTRUÇÃO &#128679;</span></div>
+    <div class="letreiro">
+        <p>*** Bem-vindo à minha Home Page! *** Calcule sua tabuada GRÁTIS! *** Assine meu livro de visitas! ***</p>
+    </div>
+    <hr>
+    <form action="tabuada.php" method="post">
+        <div class="barra-titulo">
+            <span>&#129518; Calculadora de Tabuada.exe</span>
+            <span class="controles" aria-hidden="true"><i>_</i><i>&#9633;</i><i>&#10005;</i></span>
+        </div>
+        <div class="menu" aria-hidden="true">
+            <span><u>A</u>rquivo</span>
+            <span><u>E</u>ditar</span>
+            <span>E<u>x</u>ibir</span>
+            <span>Aj<u>u</u>da</span>
+        </div>
+        <p>
+            <label for="numero">informe um número:</label>
+            <input type="number" name="numero" id="numero" placeholder="0" required>
+        </p>
+        <p>
+            <input type="submit" value="calcular">
+            <input type="reset" value="limpar">
+        </p>
+        <div class="barra-status" aria-hidden="true">
+            <span>Pronto.</span>
+            <span>NUM</span>
+        </div>
     </form>
+    <div class="dica">
+        <b>Dica do dia <span class="fogo">HOT!</span></b>
+        <p>Na tabuada do 9, os algarismos do resultado sempre somam 9. Exemplo: 9 X 3 = 27, e 2 + 7 = 9!</p>
+    </div>
+    <div class="rodape">
+        <p>Você é o visitante número</p>
+        <div class="contador"><span>0</span><span>0</span><span>0</span><span>4</span><span>1</span><span>7</span></div>
+        <p><span class="novo">NOVO!</span> Melhor visualizado no Netscape Navigator em 800x600</p>
+        <p class="email"><span class="arroba">@</span> Me mande um e-mail!</p>
+        <div class="cena-cubo" aria-hidden="true">
+            <div class="cubo">
+                <span class="face frente">7</span>
+                <span class="face tras">&times;</span>
+                <span class="face direita">9</span>
+                <span class="face esquerda">=</span>
+                <span class="face cima">63</span>
+                <span class="face baixo">&divide;</span>
+            </div>
+        </div>
+        <div class="webring">[ &lt;&lt; Anterior | <b>Webring da Matemática</b> | Próximo &gt;&gt; ]</div>
+        <div class="selos">
+            <span class="selo selo-netscape">Netscape<br><b>NOW!</b></span>
+            <span class="selo selo-notepad">Feito no<br>Bloco de Notas</span>
+            <span class="selo selo-html">&lt;HTML 3.2&gt;<br>VÁLIDO</span>
+            <span class="selo selo-php">Powered<br>by PHP</span>
+            <span class="selo selo-800">800 x 600</span>
+        </div>
+    </div>
 </body>
+
 </html>
