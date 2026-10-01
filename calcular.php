@@ -1,42 +1,99 @@
 <?php
-$nome = $_POST['tnome'];
-$anoNasc = (int) $_POST['tano'];
-$anoAtual = (int) date('Y');
+$nome   = $_POST['tnome'];
+$total  = (float) $_POST['ttotal'];
+$faixa  = $_POST['tfaixa'];
+$cartao = isset($_POST['tcartao']);
+
+// Percentuais de desconto
+$descMenor50  = 0;    // menor de 50
+$desc51a70    = 7;    // 51 a 70
+$descMaior70  = 10;   // maior de 70
+$descCartao   = 5;    // cartão fidelidade
 
 // Processamento
-$idade = $anoAtual - $anoNasc;
+if ($faixa == "menor50")
+{
+    $percIdade = $descMenor50;
+}
+elseif ($faixa == "51a70")
+{
+    $percIdade = $desc51a70;
+}
+else
+{
+    $percIdade = $descMaior70;
+}
 
-// Dias, horas e minutos vividos (aproximado)
-$diasVividos = $idade * 365;
-$horasVividas = $diasVividos * 24;
-$minutosVividos = $horasVividas * 60;
+$descontoIdade = $total * ($percIdade / 100);
 
-// Médias
-$bpmMedio = 75;              // batimentos por minuto
-$respiracaoPorMinuto = 17;   // respirações por minuto
+if ($cartao == true)
+{
+    $descontoCartao = $total * ($descCartao / 100);
+}
+else
+{
+    $descontoCartao = 0;
+}
 
-// Totais já realizados
-$batimentosTotais = $minutosVividos * $bpmMedio;
-$respiracoesTotais = $minutosVividos * $respiracaoPorMinuto;
+$valorFinal = $total - $descontoIdade - $descontoCartao;
 
-// Expectativa de vida e restantes
-$expectativaVida = 95;
-$anosRestantes = $expectativaVida - $idade;
-$minutosRestantes = $anosRestantes * 365 * 24 * 60;
-$batimentosRestantes = $minutosRestantes * $bpmMedio;
-$respiracoesRestantes = $minutosRestantes * $respiracaoPorMinuto;
-
-// Saída
-echo "<h2>Olá, $nome!</h2>";
-echo "<p>Sua idade atual é: <strong>$idade anos</strong></p>";
-echo "<p>Você já viveu aproximadamente: <strong>" . number_format($diasVividos, 0, ',', '.') . " dias</strong></p>";
-echo "<p>Considerando uma média de $bpmMedio batimentos por minuto, seu coração já bateu aproximadamente: <strong>" . number_format($batimentosTotais, 0, ',', '.') . " vezes</strong></p>";
-echo "<p>Considerando uma média de $respiracaoPorMinuto respirações por minuto, você já respirou aproximadamente: <strong>" . number_format($respiracoesTotais, 0, ',', '.') . " vezes</strong></p>";
-echo "<hr>";
-echo "<p>Considerando uma expectativa de vida de $expectativaVida anos, ainda restam aproximadamente:</p>";
-echo "<ul>";
-echo "<li><strong>$anosRestantes anos</strong></li>";
-echo "<li><strong>" . number_format($batimentosRestantes, 0, ',', '.') . " batimentos cardíacos</strong></li>";
-echo "<li><strong>" . number_format($respiracoesRestantes, 0, ',', '.') . " respirações</strong></li>";
-echo "</ul>";
+// Máximo de parcelas
+$maxParcelas = 6;
 ?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmácia Cavallaro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Farmácia Cavallaro</h1>
+    <hr>
+    <p><em>Resultado da compra</em></p>
+
+    <?php
+    echo "<p><strong>Nome:</strong> $nome</p>";
+    echo "<p><strong>Total:</strong> R$ " . number_format($total, 2, ',', '.') . "</p>";
+    echo "<p><strong>Desconto por idade:</strong> R$ " . number_format($descontoIdade, 2, ',', '.') . "</p>";
+    echo "<p><strong>Desconto do cartão:</strong> R$ " . number_format($descontoCartao, 2, ',', '.') . "</p>";
+    ?>
+
+    <h2>
+        <?php echo "Valor final R$ " . number_format($valorFinal, 2, ',', '.'); ?>
+    </h2>
+
+    <h3>Parcelamento (com for)</h3>
+    <ul>
+        <?php
+        for ($parcela = 1; $parcela <= $maxParcelas; $parcela++) {
+            $valorParcela = $valorFinal / $parcela;
+
+            echo "<li>{$parcela}x de R$ " . number_format($valorParcela, 2, ',', '.') . "</li>";
+        }
+        ?>
+    </ul>
+
+    <?php /* Parcelamento com while (comentado a pedido do professor)
+    <h3>Parcelamento (com while)</h3>
+    <ul>
+        <?php
+        $contador = 1;
+
+        while ($contador <= $maxParcelas) {
+            $valorParcela = $valorFinal / $contador;
+
+            echo "<li>{$contador}x de R$ " . number_format($valorParcela, 2, ',', '.') . "</li>";
+
+            $contador++;
+        }
+        ?>
+    </ul>
+    */ ?>
+
+    <a href="index.html">Voltar</a>
+
+</body>
+</html>

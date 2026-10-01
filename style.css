@@ -1,0 +1,591 @@
+/* ==========================================================
+   Technozen — Y2K / plástico translúcido verde-limão
+   Bolhas de vidro, estrelas cromadas, botões "jelly",
+   janela estilo XP e telinha de LCD de PDA
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=VT323&display=swap');
+
+:root {
+    --lime:        #b6f22e;
+    --lime-light:  #e4ff9a;
+    --lime-dark:   #4fa800;
+    --green-deep:  #1f4d00;
+    --lcd-bg:      #d4f58c;
+    --lcd-text:    #173300;
+    --glow:        rgba(190, 255, 60, 0.75);
+    --chrome:      linear-gradient(135deg, #ffffff 0%, #c9d3c0 22%, #f7fff0 38%, #7f8f73 55%, #eaffd4 70%, #9fb394 85%, #ffffff 100%);
+    --gloss:       linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.35) 46%, rgba(255, 255, 255, 0) 50%);
+    --ui-font:     Tahoma, Verdana, 'Segoe UI', sans-serif;
+    --tech-font:   'Orbitron', 'Arial Black', sans-serif;
+    --lcd-font:    'VT323', 'Lucida Console', monospace;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* ---------- Fundo: verde neon + raios de luz ---------- */
+html {
+    min-height: 100%;
+    background:
+        repeating-linear-gradient(115deg, transparent 0 60px, rgba(255, 255, 255, 0.07) 60px 64px, transparent 64px 140px),
+        radial-gradient(ellipse at 20% 0%, rgba(255, 255, 220, 0.9), transparent 45%),
+        radial-gradient(ellipse at 100% 100%, rgba(20, 80, 0, 0.55), transparent 55%),
+        linear-gradient(160deg, #eaff7a 0%, #a8e82a 30%, #6cc40e 60%, #2f8504 100%);
+    background-attachment: fixed;
+}
+
+/* Estrela cromada gigante no fundo */
+html::before {
+    content: '';
+    position: fixed;
+    left: -90px;
+    bottom: -90px;
+    width: 340px;
+    height: 340px;
+    background: var(--chrome);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    opacity: 0.85;
+    pointer-events: none;
+    animation: girar 60s linear infinite;
+}
+
+/* Bolhas de vidro flutuando */
+html::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        /* bolha 1: brilho + esfera */
+        radial-gradient(ellipse 32% 20% at 36% 26%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0)) 88% 22% / 130px 130px no-repeat,
+        radial-gradient(circle closest-side, rgba(230, 255, 150, 0.15) 0%, rgba(150, 230, 30, 0.45) 75%, rgba(255, 255, 255, 0.85) 92%, transparent 100%) 88% 22% / 130px 130px no-repeat,
+        /* bolha 2: brilho + esfera */
+        radial-gradient(ellipse 32% 20% at 36% 26%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0)) 9% 34% / 80px 80px no-repeat,
+        radial-gradient(circle closest-side, rgba(230, 255, 150, 0.15) 0%, rgba(150, 230, 30, 0.45) 75%, rgba(255, 255, 255, 0.85) 92%, transparent 100%) 9% 34% / 80px 80px no-repeat,
+        /* bolha 3: brilho + esfera */
+        radial-gradient(ellipse 32% 20% at 36% 26%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0)) 82% 84% / 200px 200px no-repeat,
+        radial-gradient(circle closest-side, rgba(230, 255, 150, 0.15) 0%, rgba(150, 230, 30, 0.45) 75%, rgba(255, 255, 255, 0.85) 92%, transparent 100%) 82% 84% / 200px 200px no-repeat,
+        /* bolha 4: brilho + esfera */
+        radial-gradient(ellipse 32% 20% at 36% 26%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0)) 25% 90% / 54px 54px no-repeat,
+        radial-gradient(circle closest-side, rgba(230, 255, 150, 0.15) 0%, rgba(150, 230, 30, 0.45) 75%, rgba(255, 255, 255, 0.85) 92%, transparent 100%) 25% 90% / 54px 54px no-repeat;
+    animation: flutuar 7s ease-in-out infinite alternate;
+}
+
+@keyframes girar {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes flutuar {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-18px); }
+}
+
+/* ---------- Janela de plástico translúcido ---------- */
+body {
+    position: relative;
+    z-index: 1;
+    max-width: 580px;
+    margin: 70px auto;
+    padding: 0 32px 32px;
+    font-family: var(--ui-font);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--green-deep);
+    background: linear-gradient(180deg, rgba(245, 255, 225, 0.82), rgba(205, 245, 140, 0.68));
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 14px;
+    backdrop-filter: blur(10px) saturate(1.4);
+    -webkit-backdrop-filter: blur(10px) saturate(1.4);
+    box-shadow:
+        0 0 0 1px rgba(60, 130, 0, 0.55),
+        inset 0 1px 0 #fff,
+        inset 0 -30px 50px rgba(140, 220, 20, 0.25),
+        0 22px 50px rgba(20, 60, 0, 0.45),
+        0 0 45px rgba(210, 255, 90, 0.6);
+    animation: ligar 0.5s ease-out both;
+}
+
+@keyframes ligar {
+    from { opacity: 0; transform: scale(0.96); filter: brightness(1.6); }
+    to   { opacity: 1; transform: scale(1);    filter: brightness(1); }
+}
+
+/* Estrela cromada saindo do canto da janela */
+body::before {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    top: -42px;
+    right: -42px;
+    width: 96px;
+    height: 96px;
+    background: var(--chrome);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    pointer-events: none;
+    animation: girar 18s linear infinite;
+}
+
+/* Estrelinha menor no canto oposto */
+body::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    bottom: -22px;
+    left: -22px;
+    width: 48px;
+    height: 48px;
+    background: var(--chrome);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    pointer-events: none;
+    animation: girar 12s linear infinite reverse;
+}
+
+/* ---------- Barra de título estilo XP ---------- */
+h1 {
+    position: relative;
+    margin: 0 -32px 26px;
+    padding: 12px 120px 12px 20px;
+    font-family: var(--tech-font);
+    font-size: 1.15rem;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 1px 0 #2d6600, 0 0 10px rgba(30, 90, 0, 0.6);
+    background:
+        var(--gloss),
+        linear-gradient(180deg, #c8f75a 0%, #7fd411 50%, #56b000 51%, #8ee21f 100%);
+    border-bottom: 1px solid #3a7d00;
+    border-radius: 12px 12px 0 0;
+    box-shadow: inset 0 -3px 8px rgba(220, 255, 140, 0.6);
+}
+
+h1::before {
+    content: '✦ ';
+    color: var(--lime-light);
+}
+
+/* Botões falsos da janela: minimizar, maximizar, fechar */
+h1::after {
+    content: '_ ▢ ✕';
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    padding: 2px 10px;
+    font-family: var(--ui-font);
+    font-size: 0.8rem;
+    letter-spacing: 0.5em;
+    color: #fff;
+    background: var(--gloss), linear-gradient(180deg, #9be33a, #3f8f00);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 6px;
+}
+
+/* Linha logo abaixo do título não é necessária */
+h1 + hr {
+    display: none;
+}
+
+/* Valor final em "visor de LCD" grande */
+h2 {
+    margin: 22px 0 6px;
+    padding: 14px 18px;
+    font-family: var(--lcd-font);
+    font-size: 2.1rem;
+    font-weight: 400;
+    line-height: 1.1;
+    text-align: center;
+    color: var(--lcd-text);
+    text-shadow: 0 0 6px rgba(120, 200, 0, 0.5);
+    background:
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.035) 0 1px, transparent 1px 3px),
+        linear-gradient(180deg, #bde65f, var(--lcd-bg) 40%, #e6ffb0);
+    border: 2px solid #5f9e14;
+    border-radius: 10px;
+    box-shadow:
+        inset 0 4px 10px rgba(30, 80, 0, 0.4),
+        0 1px 0 #fff,
+        0 0 22px var(--glow);
+}
+
+/* Abinha arredondada em cima de cada lista */
+h3 {
+    display: inline-block;
+    margin: 28px 0 10px;
+    padding: 4px 16px;
+    font-family: var(--tech-font);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 1px 0 #2d6600;
+    background: var(--gloss), linear-gradient(180deg, #9be33a, #4a9e00);
+    border: 1px solid #3a7d00;
+    border-radius: 999px;
+    box-shadow: 0 0 12px var(--glow);
+}
+
+/* Divisória em baixo-relevo, como plástico moldado */
+hr {
+    height: 4px;
+    margin: 24px 0;
+    border: 0;
+    border-radius: 4px;
+    background: linear-gradient(180deg, rgba(40, 100, 0, 0.35), rgba(255, 255, 255, 0.9));
+}
+
+p {
+    margin: 0 0 14px;
+}
+
+/* Subtítulo logo abaixo do título: linha de status com cursor piscando */
+h1 + hr + p {
+    margin: 0 0 22px;
+}
+
+em {
+    font-family: var(--lcd-font);
+    font-size: 1.35rem;
+    font-style: normal;
+    letter-spacing: 0.04em;
+    color: #3a6e00;
+}
+
+em::before {
+    content: '► ';
+    color: var(--lime-dark);
+}
+
+em::after {
+    content: '_';
+    animation: piscar 1s steps(1) infinite;
+}
+
+@keyframes piscar {
+    50% { opacity: 0; }
+}
+
+/* Linhas do resultado: rótulo à esquerda, valor em LCD à direita */
+body > p:not(h1 + hr + p) {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 0 8px;
+    padding: 6px 14px;
+    font-family: var(--lcd-font);
+    font-size: 1.35rem;
+    color: var(--lcd-text);
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(95, 158, 20, 0.5);
+    border-radius: 8px;
+    box-shadow: inset 0 1px 0 #fff;
+}
+
+strong {
+    font-family: var(--ui-font);
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #2d5a00;
+}
+
+/* ---------- Formulário ---------- */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #2d5a00;
+}
+
+form p {
+    position: relative;
+}
+
+/* As opções ficam lado a lado como botões, então as quebras de linha sobram */
+form br {
+    display: none;
+}
+
+/* Radio e checkbox escondidos: quem aparece é o label (continuam acessíveis pelo teclado) */
+input[type="radio"],
+input[type="checkbox"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Opções em formato de botão cromado com um "LED" */
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 6px 4px 0;
+    padding: 7px 16px 7px 10px;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: #2b3a1f;
+    text-shadow: 0 1px 0 #fff;
+    background: var(--gloss), linear-gradient(180deg, #f3f6ef 0%, #b7c1ad 50%, #94a089 51%, #e1e8d8 100%);
+    border: 1px solid #7a8870;
+    border-radius: 999px;
+    box-shadow: inset 0 -4px 8px rgba(255, 255, 255, 0.6), 0 2px 6px rgba(30, 60, 0, 0.3);
+    cursor: pointer;
+    transition: filter 0.2s, box-shadow 0.25s, transform 0.15s;
+}
+
+input[type="radio"] + label::before,
+input[type="checkbox"] + label::before {
+    content: '';
+    display: grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    font-size: 10px;
+    line-height: 1;
+    color: #2a5e00;
+    background: radial-gradient(circle at 35% 30%, #ffffff, #9aa58f 60%, #6a7660);
+    border-radius: 50%;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+input[type="checkbox"] + label::before {
+    border-radius: 4px;
+}
+
+input[type="radio"] + label:hover,
+input[type="checkbox"] + label:hover {
+    filter: brightness(1.06) saturate(1.2);
+    transform: translateY(-1px);
+}
+
+/* Selecionado: vira verde-limão e o LED acende */
+input[type="radio"]:checked + label,
+input[type="checkbox"]:checked + label {
+    color: #fff;
+    text-shadow: 0 1px 1px #2a5e00;
+    background: var(--gloss), linear-gradient(180deg, #b4f53a 0%, #6cc70a 55%, #3f9600 100%);
+    border-color: #3a7d00;
+    box-shadow: inset 0 -4px 8px rgba(210, 255, 120, 0.8), 0 2px 6px rgba(30, 80, 0, 0.4), 0 0 14px var(--glow);
+}
+
+input[type="radio"]:checked + label::before,
+input[type="checkbox"]:checked + label::before {
+    background: radial-gradient(circle at 35% 30%, #ffffff, #f0ffb0 30%, #b8f53a 70%, #5aa800);
+    box-shadow: 0 0 8px #e4ff60, inset 0 -1px 2px rgba(40, 100, 0, 0.4);
+}
+
+input[type="checkbox"]:checked + label::before {
+    content: '✔';
+}
+
+/* Foco pelo teclado */
+input[type="radio"]:focus-visible + label,
+input[type="checkbox"]:focus-visible + label {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 6px 12px;
+    font-family: var(--lcd-font);
+    font-size: 1.45rem;
+    color: var(--lcd-text);
+    background:
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.03) 0 1px, transparent 1px 3px),
+        linear-gradient(180deg, #c3ec6c, var(--lcd-bg) 40%, #e6ffb0);
+    border: 1px solid #5f9e14;
+    border-radius: 6px;
+    outline: none;
+    box-shadow: inset 0 3px 6px rgba(30, 80, 0, 0.35), 0 1px 0 #fff;
+    transition: box-shadow 0.25s, border-color 0.25s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #3a7d00;
+    box-shadow:
+        inset 0 3px 6px rgba(30, 80, 0, 0.35),
+        0 0 0 3px rgba(200, 255, 70, 0.8),
+        0 0 18px var(--glow);
+}
+
+/* Esconde as setinhas do input number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* ---------- Botões "jelly" ---------- */
+input[type="submit"],
+input[type="reset"],
+a {
+    display: inline-block;
+    margin: 10px 8px 0 0;
+    padding: 10px 28px;
+    font-family: var(--tech-font);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.25s, filter 0.25s;
+}
+
+/* Verde-limão brilhante */
+input[type="submit"] {
+    color: #fff;
+    text-shadow: 0 1px 1px #2a5e00;
+    background: var(--gloss), linear-gradient(180deg, #b4f53a 0%, #6cc70a 55%, #3f9600 100%);
+    border: 1px solid #3a7d00;
+    box-shadow:
+        inset 0 -5px 10px rgba(210, 255, 120, 0.8),
+        0 3px 8px rgba(30, 80, 0, 0.45),
+        0 0 16px var(--glow);
+}
+
+/* Cromado prateado */
+input[type="reset"],
+a {
+    color: #2b3a1f;
+    text-shadow: 0 1px 0 #fff;
+    background: var(--gloss), linear-gradient(180deg, #f3f6ef 0%, #b7c1ad 50%, #94a089 51%, #e1e8d8 100%);
+    border: 1px solid #7a8870;
+    box-shadow:
+        inset 0 -4px 8px rgba(255, 255, 255, 0.6),
+        0 3px 8px rgba(30, 60, 0, 0.35);
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+a:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08) saturate(1.2);
+    box-shadow:
+        inset 0 -5px 10px rgba(255, 255, 255, 0.6),
+        0 6px 14px rgba(30, 80, 0, 0.45),
+        0 0 24px var(--glow);
+}
+
+input[type="submit"]:active,
+input[type="reset"]:active,
+a:active {
+    transform: translateY(1px);
+    filter: brightness(0.95);
+}
+
+a {
+    margin-top: 30px;
+}
+
+/* ---------- Listas de parcelamento em plástico verde ---------- */
+ul {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    list-style: none;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid #5f9e14;
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 #fff, 0 4px 12px rgba(30, 80, 0, 0.25);
+}
+
+li {
+    padding: 6px 16px;
+    font-family: var(--lcd-font);
+    font-size: 1.3rem;
+    color: var(--lcd-text);
+    border-bottom: 1px solid rgba(80, 150, 0, 0.25);
+    transition: background 0.2s;
+}
+
+li::before {
+    content: '◆';
+    margin-right: 10px;
+    font-size: 0.85rem;
+    color: var(--lime-dark);
+}
+
+li:nth-child(even) {
+    background: rgba(190, 240, 100, 0.3);
+}
+
+li:last-child {
+    border-bottom: 0;
+}
+
+li:hover {
+    background: linear-gradient(180deg, rgba(230, 255, 150, 0.9), rgba(180, 245, 60, 0.9));
+}
+
+/* ---------- Seleção de texto ---------- */
+::selection {
+    color: #fff;
+    background: var(--lime-dark);
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 640px) {
+    body {
+        margin: 40px 16px;
+        padding: 0 18px 24px;
+    }
+
+    h1 {
+        margin: 0 -18px 22px;
+        padding-right: 20px;
+        font-size: 0.95rem;
+    }
+
+    h1::after {
+        display: none;
+    }
+
+    body::before {
+        top: -30px;
+        right: -18px;
+        width: 64px;
+        height: 64px;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+/* ---------- Menos movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    html::before,
+    html::after,
+    body::before,
+    body::after,
+    em::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
