@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Park Fácil</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="arena" aria-hidden="true">
+        <div class="cena">
+            <div class="aura aura-mago"></div>
+            <div class="aura aura-dragao"></div>
+            <div class="joia"></div>
+            <div class="circulo-magico"><span></span></div>
+            <div class="orbe"></div>
+            <div class="brilho brilho-mago"></div>
+            <div class="brilho brilho-dragao"></div>
+        </div>
+        <div class="nevoa"></div>
+        <div class="particulas"></div>
+        <div class="relampago"></div>
+        <div class="vinheta"></div>
+        <div class="placar">
+            <span class="placar-mago">Dark Magician<small>ATK 2500 / DEF 2100</small></span>
+            <span class="placar-vs">VS</span>
+            <span class="placar-dragao">Blue-Eyes White Dragon<small>ATK 3000 / DEF 2500</small></span>
+        </div>
+    </div>
+    <div class="container">
+        <h1 align="center">ESTACIONAMENTO PARK FÁCIL</h1>
+        <hr>
+        <form action="calcular.php" method="post">
+            <p>
+                <label for="horas">Horas</label>
+                <input type="number" name="horas" id="horas" min="1" required>
+            </p>
+            <p>
+                <label>Veículo</label>
+                <br>
+                <input type="radio" name="veiculo" id="carro" value="C" required>
+                <label for="carro">Carro</label>
+                <br>
+                <input type="radio" name="veiculo" id="moto" value="M">
+                <label for="moto">Moto</label>
+            </p>
+            <p>
+                <input type="checkbox" name="lavagem" id="lavagem">
+                <label for="lavagem">Lavagem</label>
+            </p>
+            <p>
+                <input type="submit" value="Calcular">
+                <input type="reset" value="Limpar">
+            </p>
+        </form>
+    </div>
+</body>
+</html>

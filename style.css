@@ -1,0 +1,784 @@
+/* ==========================================================
+   PARK FÁCIL — Tema Yu-Gi-Oh!
+   Dark Magician  VS  Blue-Eyes White Dragon
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cinzel+Decorative:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+    /* Lado do Dragão Branco */
+    --dragao-claro: #eaf7ff;
+    --dragao-brilho: #9fd8ff;
+    --dragao: #3fa3ff;
+    --dragao-escuro: #0b3d91;
+
+    /* Lado do Mago Negro */
+    --mago-claro: #f2dcff;
+    --mago-brilho: #d6a2ff;
+    --mago: #8a2be2;
+    --mago-escuro: #3d0d6e;
+    --mago-noite: #12021f;
+
+    /* Carta */
+    --moldura-1: #e3c27a;
+    --moldura-2: #c89a45;
+    --moldura-3: #b88a3a;
+    --pergaminho-1: #f7ecd0;
+    --pergaminho-2: #ead9ac;
+    --tinta: #2a1d0b;
+    --borda-carta: #7a5518;
+    --ouro: #ffd23f;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 32px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mago-noite);
+    color: var(--tinta);
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.08rem;
+    overflow-x: hidden;
+}
+
+/* ==========================================================
+   ARENA DE DUELO (fundo)
+   ========================================================== */
+
+.arena {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* A cena mantém sempre a proporção 16:9 da imagem (como um "cover"),
+   assim os efeitos ficam presos nos pontos certos da ilustração. */
+.cena {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100vw, 177.78vh);
+    height: max(100vh, 56.25vw);
+    background: url('img/duelo.jpg') center / 100% 100% no-repeat;
+    transform: translate(-50%, -50%) scale(1.02);
+    transform-origin: 53% 47%;
+    animation: camera 24s ease-in-out infinite alternate;
+}
+
+/* Todos os efeitos da cena somam luz sobre a imagem */
+.cena > * {
+    position: absolute;
+    mix-blend-mode: screen;
+}
+
+/* ---------- Auras que disputam o domínio da tela ---------- */
+.aura {
+    inset: 0;
+    animation: dominio 6s ease-in-out infinite;
+}
+
+.aura-mago {
+    background:
+        radial-gradient(ellipse 45% 70% at 20% 45%, rgba(170, 60, 255, .55), transparent 70%),
+        radial-gradient(ellipse 30% 40% at 8% 90%, rgba(255, 60, 200, .3), transparent 70%);
+}
+
+.aura-dragao {
+    background:
+        radial-gradient(ellipse 45% 70% at 75% 40%, rgba(90, 180, 255, .5), transparent 70%),
+        radial-gradient(ellipse 30% 40% at 95% 10%, rgba(200, 240, 255, .35), transparent 70%);
+    animation-delay: -3s;
+}
+
+/* ---------- Orbe de energia na boca do Dragão ---------- */
+.orbe {
+    left: 52.7%;
+    top: 46.5%;
+    width: 10%;
+    aspect-ratio: 1;
+    margin: -5% 0 0 -5%;   /* margem em % é relativa à largura: centraliza certinho */
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            #fff 0 9%,
+            rgba(215, 190, 255, .95) 18%,
+            rgba(140, 100, 255, .6) 34%,
+            rgba(80, 160, 255, .25) 52%,
+            transparent 70%);
+    animation: carregar 2.4s ease-in-out infinite;
+}
+
+/* Anel de raios girando em volta do orbe */
+.orbe::before {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    border-radius: 50%;
+    background: repeating-conic-gradient(rgba(190, 235, 255, .95) 0 2deg, transparent 2deg 17deg, rgba(220, 180, 255, .8) 17deg 18deg, transparent 18deg 31deg);
+    -webkit-mask: radial-gradient(circle, transparent 0 44%, #000 46% 56%, transparent 66%);
+    mask: radial-gradient(circle, transparent 0 44%, #000 46% 56%, transparent 66%);
+    animation: girar 3s linear infinite;
+}
+
+/* Onda de choque saindo do orbe */
+.orbe::after {
+    content: "";
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    border: 3px solid rgba(200, 235, 255, .9);
+    box-shadow: 0 0 18px rgba(150, 120, 255, .9), inset 0 0 18px rgba(150, 200, 255, .7);
+    animation: onda 2.4s ease-out infinite;
+}
+
+/* ---------- Círculo mágico na ponta do cajado ---------- */
+.circulo-magico {
+    left: 60.2%;
+    top: 85.4%;
+    width: 12%;
+    aspect-ratio: 1;
+    margin: -6% 0 0 -6%;
+    border-radius: 50%;
+    border: 2px solid rgba(225, 165, 255, .8);
+    box-shadow: 0 0 25px rgba(170, 80, 255, .8), inset 0 0 25px rgba(170, 80, 255, .55);
+    animation: girar 16s linear infinite;
+}
+
+.circulo-magico::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-conic-gradient(rgba(230, 170, 255, .6) 0 2deg, transparent 2deg 12deg);
+    -webkit-mask: radial-gradient(circle, transparent 0 60%, #000 61% 72%, transparent 73%);
+    mask: radial-gradient(circle, transparent 0 60%, #000 61% 72%, transparent 73%);
+}
+
+.circulo-magico::after {
+    content: "";
+    position: absolute;
+    inset: 10%;
+    border-radius: 50%;
+    border: 2px dashed rgba(240, 190, 255, .75);
+    animation: girar 8s linear infinite reverse;
+}
+
+/* Pentagrama */
+.circulo-magico span {
+    position: absolute;
+    inset: 20%;
+    background: radial-gradient(circle, rgba(250, 220, 255, .7), rgba(150, 60, 230, .3) 70%);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+/* ---------- Brilho nos olhos ---------- */
+.brilho {
+    width: 5%;
+    aspect-ratio: 1;
+    margin: -2.5% 0 0 -2.5%;
+    background:
+        radial-gradient(circle, #fff 0 6%, transparent 22%),
+        linear-gradient(90deg, transparent 0 49%, var(--cor) 49.5% 50.5%, transparent 51%) center / 100% 8% no-repeat,
+        linear-gradient(0deg, transparent 0 49%, var(--cor) 49.5% 50.5%, transparent 51%) center / 8% 100% no-repeat;
+    filter: drop-shadow(0 0 4px var(--cor));
+    animation: cintilar 5s ease-in-out infinite;
+}
+
+.brilho-dragao {
+    --cor: #bfe9ff;
+    left: 51.2%;
+    top: 27.1%;
+}
+
+.brilho-mago {
+    --cor: #f4dcff;
+    left: 19.1%;
+    top: 31.2%;
+    animation-delay: -2.5s;
+}
+
+/* Joia do cajado */
+.joia {
+    left: 2.7%;
+    top: 68%;
+    width: 7%;
+    aspect-ratio: 1;
+    margin: -3.5% 0 0 -3.5%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230, 255, 200, .9) 0 8%, rgba(120, 255, 160, .45) 25%, transparent 65%);
+    animation: carregar 3s ease-in-out infinite;
+}
+
+/* ---------- Camadas por cima da cena ---------- */
+
+/* Névoa mágica atravessando a tela */
+.nevoa {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 40% 25% at 30% 60%, rgba(190, 120, 255, .22), transparent 70%),
+        radial-gradient(ellipse 35% 20% at 70% 30%, rgba(160, 220, 255, .2), transparent 70%),
+        radial-gradient(ellipse 30% 18% at 50% 85%, rgba(255, 255, 255, .12), transparent 70%);
+    background-size: 200% 100%;
+    mix-blend-mode: screen;
+    animation: nevoa 30s linear infinite;
+}
+
+/* Partículas de energia subindo */
+.particulas {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(2px 2px at 30px 40px, rgba(255, 255, 255, .9), transparent),
+        radial-gradient(1.5px 1.5px at 120px 90px, rgba(150, 210, 255, .9), transparent),
+        radial-gradient(2px 2px at 200px 160px, rgba(220, 160, 255, .9), transparent),
+        radial-gradient(1px 1px at 80px 200px, #fff, transparent),
+        radial-gradient(1.5px 1.5px at 170px 20px, rgba(200, 140, 255, .8), transparent);
+    background-size: 240px 240px;
+    opacity: .75;
+    animation: subir 14s linear infinite;
+}
+
+/* Clarão de relâmpago de tempos em tempos */
+.relampago {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 53% 47%, rgba(230, 240, 255, .9), rgba(170, 140, 255, .4) 45%, transparent 80%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation: relampago 7s linear infinite;
+}
+
+/* Vinheta para destacar a carta */
+.vinheta {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 45%, rgba(5, 2, 12, .7) 100%);
+}
+
+/* Placar do duelo */
+.placar {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(.85rem, 1.4vw, 1.3rem);
+    letter-spacing: .06em;
+    line-height: 1.15;
+    text-transform: uppercase;
+}
+
+.placar small {
+    display: block;
+    margin-top: 4px;
+    font-family: 'Cinzel', serif;
+    font-size: .62em;
+    font-weight: 700;
+    letter-spacing: .2em;
+    opacity: .9;
+}
+
+.placar-mago {
+    color: var(--mago-claro);
+    text-shadow: 0 0 8px var(--mago), 0 0 22px var(--mago), 0 2px 3px #000;
+}
+
+.placar-dragao {
+    color: var(--dragao-claro);
+    text-shadow: 0 0 8px var(--dragao), 0 0 22px var(--dragao), 0 2px 3px #000;
+}
+
+.placar-vs {
+    font-size: 2em;
+    color: var(--ouro);
+    text-shadow: 0 0 2px #8a0000, 0 0 10px rgba(255, 140, 0, .9), 0 0 24px rgba(255, 80, 0, .6);
+    animation: vs 1.2s ease-in-out infinite alternate;
+}
+
+/* ==========================================================
+   A CARTA
+   ========================================================== */
+
+.container {
+    position: relative;
+    z-index: 2;
+    width: min(440px, 100%);
+    padding: 16px 16px 12px;
+    border: 3px solid #120c04;
+    border-radius: 14px;
+    background: linear-gradient(160deg, var(--moldura-1), var(--moldura-2) 40%, #e9cf8f 60%, var(--moldura-3));
+    animation:
+        invocar 1.3s cubic-bezier(.2, .9, .3, 1.2) backwards,
+        disputa 3s ease-in-out infinite alternate;
+}
+
+/* Brilho holográfico passando pela carta */
+.container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(115deg,
+            transparent 30%,
+            rgba(255, 255, 255, .5) 44%,
+            rgba(170, 220, 255, .35) 50%,
+            rgba(220, 170, 255, .35) 56%,
+            transparent 70%);
+    background-size: 260% 100%;
+    mix-blend-mode: soft-light;
+    animation: holografico 5s ease-in-out infinite;
+}
+
+/* Linha de ATK / DEF no rodapé da carta */
+.container::after {
+    content: "ATK/3000   DEF/2500";
+    display: block;
+    margin-top: 8px;
+    padding: 6px 4px 0;
+    border-top: 2px solid rgba(18, 12, 4, .6);
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: .95rem;
+    letter-spacing: .06em;
+    text-align: right;
+    white-space: pre;
+    color: #1b1206;
+}
+
+/* Barra com o nome da carta */
+h1 {
+    position: relative;
+    margin: 0 0 30px;
+    padding: 8px 12px;
+    border: 2px solid var(--borda-carta);
+    border-radius: 3px;
+    background: linear-gradient(180deg, #f8ebc6, #e2c98d);
+    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, .7), inset -1px -1px 0 rgba(0, 0, 0, .2);
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(1rem, 4.4vw, 1.3rem);
+    letter-spacing: .03em;
+    line-height: 1.2;
+    text-align: center;
+    color: #1b1206;
+}
+
+/* Estrelas de nível 8 */
+h1::after {
+    content: "★★★★★★★★";
+    position: absolute;
+    right: 0;
+    top: calc(100% + 5px);
+    font-family: serif;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ouro);
+    text-shadow:
+        0 0 1px #8a0000, 0 0 1px #8a0000, 0 0 2px #8a0000,
+        0 0 8px rgba(255, 120, 0, .8);
+}
+
+/* O <hr> vira a arte da carta: a mesma ilustração do duelo */
+hr {
+    height: 180px;
+    margin: 0 0 12px;
+    border: 3px solid #5a3d10;
+    background:
+        radial-gradient(circle at 52.7% 46.5%, rgba(255, 255, 255, .8) 0 3%, rgba(180, 150, 255, .35) 9%, transparent 18%),
+        url('img/duelo.jpg') 50% 40% / cover no-repeat;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, .6), 0 1px 0 rgba(255, 255, 255, .4);
+    animation: arte 2.4s ease-in-out infinite;
+}
+
+/* Caixa de texto da carta */
+form,
+.resultado {
+    margin: 0;
+    padding: 10px 14px 6px;
+    border: 2px solid var(--borda-carta);
+    background: linear-gradient(180deg, var(--pergaminho-1), var(--pergaminho-2));
+    box-shadow: inset 0 0 12px rgba(122, 85, 24, .35);
+}
+
+/* Linha de tipo: [ MAGO / DRAGÃO ] */
+form::before,
+.resultado::before {
+    display: block;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(122, 85, 24, .45);
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .08em;
+}
+
+form::before {
+    content: "[ MAGO / DRAGÃO / ESTACIONAMENTO ]";
+}
+
+.resultado::before {
+    content: "[ RESULTADO DO DUELO ]";
+}
+
+form p,
+.resultado p {
+    margin: 12px 0;
+}
+
+/* Rótulos principais (Horas, Veículo) */
+form p > label:first-child {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: .85rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #3b2708;
+}
+
+label {
+    cursor: pointer;
+}
+
+/* ---------- Campo de horas ---------- */
+input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #6b4a14;
+    border-radius: 8px;
+    background: linear-gradient(110deg, #1d0b33, #0d1b3a);
+    color: var(--dragao-claro);
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, .6);
+    transition: border-color .25s, box-shadow .25s;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--dragao-brilho);
+    box-shadow:
+        inset 0 2px 8px rgba(0, 0, 0, .6),
+        0 0 0 3px rgba(120, 200, 255, .35),
+        0 0 18px rgba(170, 90, 255, .55);
+}
+
+/* ---------- Radios e checkbox ---------- */
+input[type="radio"],
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    margin: 6px 8px 6px 0;
+    vertical-align: middle;
+    border: 2px solid #6b4a14;
+    background: #fff8e6;
+    cursor: pointer;
+    transition: background .25s, box-shadow .25s, border-color .25s, transform .15s;
+}
+
+input[type="radio"] {
+    border-radius: 50%;
+}
+
+input[type="checkbox"] {
+    border-radius: 5px;
+}
+
+input[type="radio"]:hover,
+input[type="checkbox"]:hover {
+    transform: scale(1.12);
+}
+
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--mago);
+    outline-offset: 2px;
+}
+
+/* Carro = poder do Dragão Branco */
+input[type="radio"]:checked,
+#carro:checked {
+    border-color: var(--dragao-escuro);
+    background: radial-gradient(circle at 35% 35%, #fff, var(--dragao-brilho) 35%, #1560c9);
+    box-shadow: 0 0 10px var(--dragao), 0 0 20px rgba(63, 163, 255, .5);
+}
+
+/* Moto = magia do Mago Negro */
+#moto:checked {
+    border-color: var(--mago-escuro);
+    background: radial-gradient(circle at 35% 35%, #fff, var(--mago-brilho) 35%, #6a1fb3);
+    box-shadow: 0 0 10px var(--mago), 0 0 20px rgba(138, 43, 226, .5);
+}
+
+input[type="checkbox"]:checked {
+    border-color: #3b2708;
+    background: linear-gradient(135deg, var(--mago), var(--dragao-brilho));
+    box-shadow: inset 0 0 0 3px #fff8e6, 0 0 12px rgba(170, 120, 255, .7);
+}
+
+input:checked + label {
+    font-weight: 600;
+}
+
+#carro:checked + label {
+    color: var(--dragao-escuro);
+}
+
+#moto:checked + label {
+    color: #6a1fb3;
+}
+
+/* ---------- Botões de ataque ---------- */
+form p:has(input[type="submit"]),
+.acoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+input[type="submit"],
+input[type="reset"],
+.botao {
+    flex: 1;
+    display: inline-block;
+    padding: 12px 16px;
+    border: 2px solid;
+    border-radius: 10px;
+    background-size: 260% 100%;
+    background-position: 100% 0;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: .95rem;
+    letter-spacing: .14em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    transition: background-position .6s ease, transform .15s, box-shadow .25s;
+}
+
+/* Calcular = Rajada de Luz Branca */
+input[type="submit"] {
+    border-color: #bfe6ff;
+    background-image: linear-gradient(110deg,
+            var(--dragao-escuro) 0%, var(--dragao) 35%, var(--dragao-claro) 50%, var(--dragao) 65%, var(--dragao-escuro) 100%);
+    text-shadow: 0 1px 3px #02163a;
+    box-shadow: 0 4px 14px rgba(40, 140, 255, .45), inset 0 1px 0 rgba(255, 255, 255, .6);
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:focus-visible {
+    outline: none;
+    background-position: 0 0;
+    transform: translateY(-2px);
+    box-shadow: 0 0 26px rgba(120, 210, 255, .95), inset 0 1px 0 rgba(255, 255, 255, .6);
+}
+
+/* Limpar / Voltar = Ataque Mágico Negro */
+input[type="reset"],
+.botao {
+    border-color: var(--mago-brilho);
+    background-image: linear-gradient(110deg,
+            #1a0533 0%, #6b1fb8 35%, #e2b6ff 50%, #6b1fb8 65%, #1a0533 100%);
+    text-shadow: 0 1px 3px #12021f;
+    box-shadow: 0 4px 14px rgba(138, 43, 226, .45), inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+input[type="reset"]:hover,
+input[type="reset"]:focus-visible,
+.botao:hover,
+.botao:focus-visible {
+    outline: none;
+    background-position: 0 0;
+    transform: translateY(-2px);
+    box-shadow: 0 0 26px rgba(190, 110, 255, .95), inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+input[type="submit"]:active,
+input[type="reset"]:active,
+.botao:active {
+    transform: translateY(1px) scale(.98);
+}
+
+/* ---------- Página de resultado ---------- */
+.resultado strong {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: #3b2708;
+}
+
+.resultado .total {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(122, 85, 24, .6);
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.resultado .total strong {
+    background: linear-gradient(90deg, var(--mago), var(--dragao-escuro));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* ==========================================================
+   ANIMAÇÕES
+   ========================================================== */
+
+/* Câmera lenta aproximando do choque de poderes */
+@keyframes camera {
+    from { transform: translate(-50%, -50%) scale(1.02); }
+    to   { transform: translate(-50%, -50%) scale(1.12); }
+}
+
+@keyframes dominio {
+    0%, 100% { opacity: .35; }
+    50%      { opacity: 1; }
+}
+
+@keyframes carregar {
+    0%, 100% { transform: scale(.85); opacity: .75; }
+    50%      { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes onda {
+    from { transform: scale(.4); opacity: 1; }
+    to   { transform: scale(2.6); opacity: 0; }
+}
+
+@keyframes girar {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes cintilar {
+    0%, 70%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+    80%           { transform: scale(1) rotate(45deg); opacity: 1; }
+    90%           { transform: scale(.4) rotate(90deg); opacity: .6; }
+}
+
+@keyframes nevoa {
+    from { background-position: 0 0; }
+    to   { background-position: -200% 0; }
+}
+
+@keyframes subir {
+    from { background-position: 0 0; }
+    to   { background-position: 0 -240px; }
+}
+
+@keyframes relampago {
+    0%, 68%, 74%, 100% { opacity: 0; }
+    69%                { opacity: .55; }
+    70%                { opacity: .1; }
+    71.5%              { opacity: .7; }
+}
+
+@keyframes vs {
+    from { transform: scale(1); }
+    to   { transform: scale(1.12); }
+}
+
+@keyframes invocar {
+    0% {
+        opacity: 0;
+        transform: perspective(900px) rotateY(-90deg) scale(.7);
+        filter: brightness(3);
+    }
+    60% {
+        opacity: 1;
+        filter: brightness(1.6);
+    }
+    100% {
+        transform: perspective(900px) rotateY(0) scale(1);
+        filter: brightness(1);
+    }
+}
+
+/* O brilho da carta alterna entre o Mago (esquerda) e o Dragão (direita) */
+@keyframes disputa {
+    from {
+        box-shadow:
+            -30px 0 70px rgba(170, 80, 255, .8),
+            30px 0 40px rgba(110, 190, 255, .3),
+            0 20px 50px rgba(0, 0, 0, .7);
+    }
+    to {
+        box-shadow:
+            -30px 0 40px rgba(170, 80, 255, .3),
+            30px 0 70px rgba(110, 190, 255, .8),
+            0 20px 50px rgba(0, 0, 0, .7);
+    }
+}
+
+@keyframes holografico {
+    0%, 15%   { background-position: 100% 0; }
+    65%, 100% { background-position: 0 0; }
+}
+
+@keyframes arte {
+    0%, 100% { filter: brightness(1) saturate(1); }
+    50%      { filter: brightness(1.15) saturate(1.25); }
+}
+
+/* ==========================================================
+   RESPONSIVO E ACESSIBILIDADE
+   ========================================================== */
+
+/* Em telas largas a carta vai para a direita, deixando à mostra
+   o Mago, a cabeça do Dragão e o choque de energia */
+@media (min-width: 1150px) {
+    body {
+        justify-content: flex-end;
+        padding-right: 5vw;
+    }
+
+    .vinheta {
+        background:
+            linear-gradient(to left, rgba(5, 2, 12, .55), transparent 35%),
+            radial-gradient(ellipse at center, transparent 50%, rgba(5, 2, 12, .65) 100%);
+    }
+}
+
+@media (max-width: 1149px) {
+    .placar {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    hr {
+        height: 140px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
