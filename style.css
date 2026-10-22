@@ -339,15 +339,20 @@ body {
     animation: pilar 3.5s ease-in-out infinite alternate;
 }
 
-/* Feixes de energia subindo pelo pilar */
+/* Faíscas douradas subindo pelo pilar */
 .pilar::before {
     content: "";
     position: absolute;
-    inset: 0 18%;
-    background: repeating-linear-gradient(0deg, rgba(255, 240, 200, .28) 0 2px, transparent 2px 46px);
+    inset: 0 12%;
+    background-image:
+        radial-gradient(2px 3px at 20px 30px, rgba(255, 240, 200, .95), transparent),
+        radial-gradient(1.5px 2px at 90px 110px, rgba(255, 220, 150, .9), transparent),
+        radial-gradient(2px 3px at 150px 60px, rgba(255, 250, 230, .9), transparent),
+        radial-gradient(1px 2px at 60px 150px, rgba(255, 210, 130, .9), transparent);
+    background-size: 180px 180px;
     -webkit-mask: linear-gradient(90deg, transparent, #000 30% 70%, transparent);
     mask: linear-gradient(90deg, transparent, #000 30% 70%, transparent);
-    animation: feixes 2.5s linear infinite;
+    animation: feixes 4s linear infinite;
 }
 
 /* Círculo de invocação dourado atrás da carta */
@@ -979,7 +984,7 @@ input[type="reset"]:active,
 
 @keyframes feixes {
     from { background-position: 0 0; }
-    to   { background-position: 0 -46px; }
+    to   { background-position: 0 -180px; }
 }
 
 @keyframes selo {
