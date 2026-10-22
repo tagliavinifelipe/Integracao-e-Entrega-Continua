@@ -46,34 +46,48 @@ if ($lavagem) {
 <body>
     <div class="arena" aria-hidden="true">
         <div class="cena">
-            <div class="aura aura-mago"></div>
-            <div class="aura aura-dragao"></div>
-            <div class="joia"></div>
-            <div class="circulo-magico"><span></span></div>
-            <div class="orbe"></div>
-            <div class="brilho brilho-mago"></div>
-            <div class="brilho brilho-dragao"></div>
+            <div class="fundo"></div>
+            <div class="metade metade-mago">
+                <div class="recorte"></div>
+                <div class="aura aura-mago"></div>
+                <div class="joia"></div>
+                <div class="circulo-magico"><span></span></div>
+                <div class="brilho brilho-mago"></div>
+            </div>
+            <div class="metade metade-dragao">
+                <div class="recorte"></div>
+                <div class="aura aura-dragao"></div>
+                <div class="orbe"></div>
+                <div class="brilho brilho-dragao"></div>
+            </div>
         </div>
         <div class="nevoa"></div>
         <div class="particulas"></div>
         <div class="relampago"></div>
         <div class="vinheta"></div>
-        <div class="placar">
-            <span class="placar-mago">Dark Magician<small>ATK 2500 / DEF 2100</small></span>
-            <span class="placar-vs">VS</span>
-            <span class="placar-dragao">Blue-Eyes White Dragon<small>ATK 3000 / DEF 2500</small></span>
-        </div>
+        <div class="pilar"></div>
+        <div class="circulo-invocacao"><span></span><span></span></div>
+        <span class="placar placar-mago">Dark Magician<small>ATK 2500 / DEF 2100</small></span>
+        <span class="placar placar-dragao">Blue-Eyes White Dragon<small>ATK 3000 / DEF 2500</small></span>
     </div>
     <div class="container">
         <h1>Estacionamento Park Fácil</h1>
+        <div class="nivel" role="img" aria-label="Nível 8">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
         <hr>
+        <div class="codigo">PARK-PT001</div>
         <div class="resultado">
             <p><strong>Horas:</strong> <?php echo htmlspecialchars($horas); ?></p>
             <p><strong>Veículo:</strong> <?php echo $veiculo == "C" ? "Carro" : "Moto"; ?></p>
             <p><strong>Lavagem:</strong> <?php echo $lavagem ? "Sim" : "Não"; ?></p>
             <p class="total"><strong>Total: R$ <?php echo number_format($total, 2, ',', '.'); ?></strong></p>
+            <p class="acoes"><a class="botao" href="index.html">Voltar</a></p>
         </div>
-        <p class="acoes"><a class="botao" href="index.html">Voltar</a></p>
+        <div class="rodape">
+            <span>00000001 &nbsp;1ª Edição</span>
+            <span>©2026 PARK FÁCIL</span>
+        </div>
     </div>
 </body>
 </html>
