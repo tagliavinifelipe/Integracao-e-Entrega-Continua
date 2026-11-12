@@ -15,7 +15,7 @@
         <form action="inserir.php" method="post">
             <p>
                 <label for="nome">Nome:</label>
-                <input type="text" name="name" required>
+                <input type="text" name="nome" required>
             </p>
             <p>
                 <label for="email">E-mail:</label>
